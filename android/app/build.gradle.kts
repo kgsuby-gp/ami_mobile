@@ -3,12 +3,13 @@ import java.io.FileInputStream
 
 plugins {
     id("com.android.application")
+    // Added the Google services Gradle plugin
+    id("com.google.gms.google-services")
     id("org.jetbrains.kotlin.android")
     id("dev.flutter.flutter-gradle-plugin")
 }
 
 val keystoreProperties = Properties()
-// Change rootProject to project since key.properties is now in android/app/
 val keystorePropertiesFile = project.file("key.properties")
 
 if (keystorePropertiesFile.exists()) {
@@ -27,12 +28,10 @@ android {
 
     signingConfigs {
         create("release") {
-            // Read properties safely
             keyAlias = keystoreProperties.getProperty("keyAlias")
             keyPassword = keystoreProperties.getProperty("keyPassword")
             storePassword = keystoreProperties.getProperty("storePassword")
             
-            // Resolve the storeFile relative to the app directory
             val storeFilePath = keystoreProperties.getProperty("storeFile")
             if (storeFilePath != null) {
                 storeFile = file(storeFilePath)
@@ -50,7 +49,6 @@ android {
 
     buildTypes {
         getByName("release") {
-            // Only assign if storeFile was loaded successfully
             if (signingConfigs.getByName("release").storeFile != null) {
                 signingConfig = signingConfigs.getByName("release")
             }
@@ -64,4 +62,15 @@ kotlin {
     compilerOptions {
         jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17)
     }
+}
+
+dependencies {
+    // Import the Firebase BoM
+    implementation(platform("com.google.firebase:firebase-bom:34.15.0"))
+
+    // Add the dependencies for Firebase products you want to use
+    // When using the BoM, you don't specify versions in Firebase dependencies
+    implementation("com.google.firebase:firebase-analytics")
+
+    // Add other Firebase dependencies here as needed
 }
