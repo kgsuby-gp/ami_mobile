@@ -1,11 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_core/firebase_core.dart'; // Required for Firebase
+import 'firebase_options.dart';                   // Your manually created config file
 import 'services/settings_service.dart';
 import 'services/api_service.dart';
 import 'screens/location_selection_screen.dart';
 import 'screens/dashboard_screen.dart';
 
-void main() {
+void main() async {
+  // Ensure Flutter engine is initialized
   WidgetsFlutterBinding.ensureInitialized();
+  
+  // Initialize Firebase using the options from firebase_options.dart
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+  
   runApp(const MyApp());
 }
 
@@ -20,7 +29,6 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.teal),
         appBarTheme: const AppBarTheme(centerTitle: true, elevation: 2),
-        // FIXED: Using CardThemeData explicitly
         cardTheme: const CardThemeData(
           elevation: 2,
           margin: EdgeInsets.symmetric(horizontal: 10, vertical: 6),
