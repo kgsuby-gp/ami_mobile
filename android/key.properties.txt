@@ -1,0 +1,4 @@
+storePassword=FinIndCmplx246*
+keyPassword=FinIndCmplx246*
+keyAlias=upload
+storeFile=upload-keystore.jks
