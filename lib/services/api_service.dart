@@ -10,7 +10,7 @@ class ApiService {
   // Default to the local dev URL if no environment variable is provided.
   static const String baseUrl = String.fromEnvironment(
     'API_BASE_URL',
-    defaultValue: 'http://192.168.1.36:8080/api/sync',
+    defaultValue: 'https://ami-service.onrender.com/api/sync',
   );
 
   Future<void> syncData() async {
